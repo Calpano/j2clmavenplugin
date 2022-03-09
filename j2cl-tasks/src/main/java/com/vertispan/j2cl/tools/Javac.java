@@ -38,7 +38,7 @@ public class Javac {
 //        for (File file : classpath) {
 //            System.out.println(file.getAbsolutePath() + " " + file.exists() + " " + file.isDirectory());
 //        }
-        javacOptions = new ArrayList<>(Arrays.asList("-encoding", "utf8", "-implicit:none", "-bootclasspath", bootstrap.toString()));
+        javacOptions = new ArrayList<>(Arrays.asList("-encoding", "utf8", "-implicit:none", "-bootclasspath", bootstrap.getCanonicalFile().getAbsolutePath()));
         if (generatedClassesPath == null) {
             javacOptions.add("-proc:none");
         }
