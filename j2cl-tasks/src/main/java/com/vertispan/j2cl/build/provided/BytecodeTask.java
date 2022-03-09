@@ -86,7 +86,7 @@ public class BytecodeTask extends TaskFactory {
                 List<File> sourcePaths = inputDirs.getParentPaths().stream().map(Path::toFile).collect(Collectors.toList());
                 File generatedClassesDir = getGeneratedClassesDir(context);
                 File classOutputDir = context.outputPath().toFile();
-                Javac javac = new Javac(context, generatedClassesDir, sourcePaths, classpathDirs, classOutputDir, bootstrapClasspath);
+                Javac javac = new Javac(context, generatedClassesDir, sourcePaths, classpathDirs, classOutputDir, bootstrapClasspath, Javac.Mode.NativeJre);
 
                 // TODO convention for mapping to original file paths, provide FileInfo out of Inputs instead of Paths,
                 //      automatically relativized?

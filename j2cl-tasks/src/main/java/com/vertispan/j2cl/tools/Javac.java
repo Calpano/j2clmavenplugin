@@ -33,7 +33,7 @@ public class Javac {
     StandardJavaFileManager fileManager;
     private DiagnosticCollector<JavaFileObject> listener;
 
-    public Javac(BuildLog log, File generatedClassesPath, List<File> sourcePaths, List<File> classpath, File classesDirFile, File bootstrap) throws IOException {
+    public Javac(BuildLog log, File generatedClassesPath, List<File> sourcePaths, List<File> classpath, File classesDirFile, File bootstrap, Mode mode) throws IOException {
         this.log = log;
 //        for (File file : classpath) {
 //            System.out.println(file.getAbsolutePath() + " " + file.exists() + " " + file.isDirectory());
@@ -55,6 +55,15 @@ public class Javac {
         }
         fileManager.setLocation(StandardLocation.CLASS_PATH, classpath);
         fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Collections.singleton(classesDirFile));
+        if(mode == Mode.JreEmulation) {
+            log.info("Set PLATFORM_CLASS_PATH to (JRE Emulated, JRE Native) order");
+            ArrayList<File> platform = new ArrayList<>();
+            platform.add(bootstrap);
+            fileManager.getLocation(StandardLocation.PLATFORM_CLASS_PATH).forEach(platform::add);
+            fileManager.setLocation(StandardLocation.PLATFORM_CLASS_PATH, platform);
+        } else {
+            log.info("Keep PLATFORM_CLASS_PATH as (Native) only, no JRE emulation");
+        }
     }
 
     public boolean compile(List<FileInfo> modifiedJavaFiles) {
@@ -94,5 +103,9 @@ public class Javac {
                 }
             });
         }
+    }
+
+    public enum Mode {
+        JreEmulation, NativeJre
     }
 }

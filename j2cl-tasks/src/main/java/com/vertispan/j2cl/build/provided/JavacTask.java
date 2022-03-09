@@ -57,7 +57,7 @@ public class JavacTask extends TaskFactory {
                     extraClasspath.stream()).collect(Collectors.toList());
 
             List<File> sourcePaths = ownSources.getParentPaths().stream().map(Path::toFile).collect(Collectors.toList());
-            Javac javac = new Javac(context, null, sourcePaths, classpathDirs, context.outputPath().toFile(), bootstrapClasspath);
+            Javac javac = new Javac(context, null, sourcePaths, classpathDirs, context.outputPath().toFile(), bootstrapClasspath, Javac.Mode.JreEmulation);
 
             // TODO convention for mapping to original file paths, provide FileInfo out of Inputs instead of Paths,
             //      automatically relativized?
