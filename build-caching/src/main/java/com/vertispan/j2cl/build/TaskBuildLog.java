@@ -83,6 +83,11 @@ public class TaskBuildLog implements BuildLog {
         printStackTrace(t, "[ERROR] ");
     }
 
+    @Override
+    public boolean isDebugEnabled() {
+        return buildLog.isDebugEnabled();
+    }
+
     // Helpers adapted from gwtproject/gwt, does not suppress repeated lines like jre does
     private void printStackTrace(Throwable t, String prefix) {
         printStackTrace(t, prefix, "", Collections.newSetFromMap(new IdentityHashMap<>()));

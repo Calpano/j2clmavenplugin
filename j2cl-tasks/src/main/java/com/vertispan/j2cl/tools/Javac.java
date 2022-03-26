@@ -44,13 +44,11 @@ public class Javac {
         this.log = log;
         compiler = ToolProvider.getSystemJavaCompiler();
         listener = new DiagnosticCollector<>();
-        // null = standard charset on windows = cp.... (some kind of non-utf8 charset)
         fileManager = compiler.getStandardFileManager(listener, null, StandardCharsets.UTF_8);
-//        for (File file : classpath) {
-//            System.out.println(file.getAbsolutePath() + " " + file.exists() + " " + file.isDirectory());
-//        }
         javacOptions = new ArrayList<>(Arrays.asList("-encoding", "utf8", "-implicit:none"));
-        javacOptions.add("-verbose");
+        if (log.isDebugEnabled()) {
+            javacOptions.add("-verbose");
+        }
         if (generatedClassesPath == null) {
             javacOptions.add("-proc:none");
         }
@@ -65,18 +63,14 @@ public class Javac {
                 log.info("Activate JRE emulation for this step on Java >= 9: " + javaVersion);
                 javacOptions.add("--patch-module");
                 javacOptions.add("java.base=" + bootClassPath);
-                // Allow JRE classes are allowed to depend on the jsinterop annotations
+                // Allow JRE classes to depend on the jsinterop annotations
+                // learned from https://github.com/google/j2cl/commit/a613ee8c122e14767ee420c4618ab9c181f67518
                 javacOptions.add("--add-reads");
                 javacOptions.add("java.base=ALL-UNNAMED");
                 log.info("Using java.base=" + bootClassPath);
-                /* Maybe this works on Java 17? */
-                // requires a path that meets Locations.isCurrentPlatform(p) && Files.exists(p.resolve("lib").resolve("jrt-fs.jar")) && Files.exists(systemJavaHome.resolve("modules")))
-                // fileManager.setLocation( StandardLocation.SYSTEM_MODULES   ,Collections.singleton(bootstrap.getParentFile()));
             } else {
                 log.info("No JRE emulation for this step on Java >= 9: " + javaVersion);
             }
-//            javacOptions.add("-Xdiags:verbose");
-//            javacOptions.add("-Xlint:path,auxiliaryclass,module,options");
         } else {
             // Java version <= 8
             if (mode == Mode.JreEmulation) {
@@ -84,7 +78,8 @@ public class Javac {
                 javacOptions.add("-bootclasspath");
                 javacOptions.add(bootClassPath);
                 log.info("Using bootclasspath " + bootClassPath);
-                /* This works on AdoptOpenJDK Java 8, not on Oracle Java 17 */
+                /* This workaround seems necessary for IT test 'shared-lib-externalizable-reactor'.
+                 It works on AdoptOpenJDK Java 8, not on Oracle Java 17 */
                 prependPathsWith(fileManager, StandardLocation.PLATFORM_CLASS_PATH, bootstrap);
             } else {
                 log.info("No JRE emulation for this step on Java <= 8: " + javaVersion);
@@ -98,10 +93,9 @@ public class Javac {
         fileManager.setLocation(StandardLocation.CLASS_PATH, classpath);
         fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Collections.singleton(classesDirFile));
 
-
-        log.info("Javac options are: ");
+        log.debug("Javac options are: ");
         for (String opt : javacOptions) {
-            log.info("'" + opt + "'");
+            log.debug("'" + opt + "'");
         }
     }
 

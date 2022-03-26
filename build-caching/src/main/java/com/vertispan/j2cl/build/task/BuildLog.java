@@ -5,6 +5,7 @@ package com.vertispan.j2cl.build.task;
  */
 // TODO support isDebug(), etc, to avoid extra logging?
 // TODO support trace logging, for some middle ground before debug?
+// NOTE: 'trace' is even finer than 'debug' in slf4j https://www.slf4j.org/api/org/apache/log4j/Level.html
 public interface BuildLog {
 
     void debug(String msg);
@@ -22,4 +23,6 @@ public interface BuildLog {
     void error(String msg, Throwable t);
 
     void error(Throwable t);
+
+    boolean isDebugEnabled();
 }

@@ -50,4 +50,9 @@ public class MavenLog implements BuildLog {
     public void error(Throwable t) {
         logger.error(t);
     }
+
+    @Override
+    public boolean isDebugEnabled() {
+        return logger.isDebugEnabled();
+    }
 }

@@ -58,4 +58,10 @@ public class TaskContext implements BuildLog {
     public void error(Throwable t) {
         log.error(t);
     }
+
+    @Override
+    public boolean isDebugEnabled() {
+        return log.isDebugEnabled();
+    }
+
 }
