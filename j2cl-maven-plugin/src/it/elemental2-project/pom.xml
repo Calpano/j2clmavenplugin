@@ -85,6 +85,14 @@
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+                <!-- Fix https://stackoverflow.com/questions/66920567/error-injecting-org-apache-maven-plugin-war-warmojo
+                     Note 3.3.1 requires JDK 1.7 or higher
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
