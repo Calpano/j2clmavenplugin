@@ -255,7 +255,8 @@ public abstract class AbstractBuildMojo extends AbstractCacheMojo {
                         throw new ProjectBuildingException(p.getId(), "Failed to resolve this project's artifact file", e);
                     }
 
-                    getLog().info("Building dependency "+p.getGroupId()+":"+p.getArtifactId()+":"+p.getVersion());
+                    if(getLog().isDebugEnabled())
+                        getLog().debug("Building dependency "+p.getGroupId()+":"+p.getArtifactId()+":"+p.getVersion());
                     child = buildProject(p, mavenDependency, lookupReactorProjects, projectBuilder, request, pluginVersion, builtProjects, Artifact.SCOPE_COMPILE_PLUS_RUNTIME, dependencyReplacements, depth++);
                 }
 
