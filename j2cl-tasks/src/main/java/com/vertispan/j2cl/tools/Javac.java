@@ -58,7 +58,7 @@ public class Javac {
 
         if (SourceVersion.latestSupported().compareTo(SourceVersion.RELEASE_8) > 0) {
             // Java version >= 9
-            //javacOptions.add("--release=8");
+              //javacOptions.add("--release=8");
             if (mode == Mode.JreEmulation) {
                 log.info("Activate JRE emulation for this step on Java >= 9: " + javaVersion);
                 javacOptions.add("--patch-module");

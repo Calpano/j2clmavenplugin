@@ -6,7 +6,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 /**
- * A shared libary, written in java an used on client side and in server code
+ * A shared library, written in java and used on client side and in server code
  */
 public class SharedLib implements Externalizable {
 

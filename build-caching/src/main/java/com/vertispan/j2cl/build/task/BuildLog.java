@@ -3,11 +3,9 @@ package com.vertispan.j2cl.build.task;
 /**
  * Our own log api, which can forward to the calling tool's log.
  */
-// TODO support isDebug(), etc, to avoid extra logging?
-// TODO support trace logging, for some middle ground before debug?
-// NOTE: 'trace' is even finer than 'debug' in slf4j https://www.slf4j.org/api/org/apache/log4j/Level.html
 public interface BuildLog {
 
+    /** NOTE: 'trace' is even finer than 'debug' in slf4j https://www.slf4j.org/api/org/apache/log4j/Level.html, but maven logging has no trace lavel */
     void debug(String msg);
 
     void info(String msg);
