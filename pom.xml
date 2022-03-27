@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.vertispan.j2cl</groupId>
+  <groupId>com.calpano.vertispan.j2cl</groupId>
   <artifactId>j2cl-tools</artifactId>
   <version>0.20-SNAPSHOT</version>
   <packaging>pom</packaging>
