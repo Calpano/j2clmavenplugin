@@ -32,6 +32,12 @@
     </dependencies>
 
 
+    <distributionManagement>
+        <repository>
+            <id>itmv-feed</id>
+            <url>https://pkgs.dev.azure.com/itmv/_packaging/itmv-feed/maven/v1</url>
+        </repository>
+    </distributionManagement>
 
 
 

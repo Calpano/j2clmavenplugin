@@ -356,15 +356,9 @@
 
   <distributionManagement>
     <repository>
-      <id>ossrh</id>
-      <name>Sonatype staging repository for Maven Central</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>itmv-feed</id>
+      <url>https://pkgs.dev.azure.com/itmv/_packaging/itmv-feed/maven/v1</url>
     </repository>
-    <snapshotRepository>
-      <id>vertispan-snapshots</id>
-      <name>Vertispan hosted artifacts-snapshots</name>
-      <url>https://repo.vertispan.com/j2cl</url>
-    </snapshotRepository>
   </distributionManagement>
 
   <profiles>
@@ -394,21 +388,6 @@
                 <id>attach-javadocs</id>
                 <goals>
                   <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- see http://central.sonatype.org/pages/working-with-pgp-signatures.html for more detail -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>${maven.gpg.plugin.version}</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
                 </goals>
               </execution>
             </executions>

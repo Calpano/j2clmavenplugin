@@ -15,10 +15,10 @@
   <name>J2CL Maven Plugin</name>
 
   <distributionManagement>
-    <site>
-      <id>github-pages</id>
-      <url>scm:git:git@github.com:vertispan/j2clmavenplugin.git</url>
-    </site>
+    <repository>
+      <id>itmv-feed</id>
+      <url>https://pkgs.dev.azure.com/itmv/_packaging/itmv-feed/maven/v1</url>
+    </repository>
   </distributionManagement>
 
   <dependencies>
