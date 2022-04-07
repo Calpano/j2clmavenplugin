@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>shared-lib-externalizable</groupId>
+    <groupId>lib-with-jre-supersource</groupId>
     <artifactId>app</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
@@ -15,8 +15,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>shared-lib-externalizable</groupId>
-            <artifactId>lib</artifactId>
+            <groupId>lib-with-jre-supersource</groupId>
+            <artifactId>super</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
