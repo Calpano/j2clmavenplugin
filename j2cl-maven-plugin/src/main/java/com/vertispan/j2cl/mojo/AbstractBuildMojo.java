@@ -211,6 +211,9 @@ public abstract class AbstractBuildMojo extends AbstractCacheMojo {
 
             if (!mavenDependency.getArtifactHandler().isAddedToClasspath()) {
                 continue;
+            } if("provided".equals( mavenDependency.getScope())) {
+                getLog().info("Ignoring scope=provided dependency "+mavenDependency);
+                continue;
             } else if (Artifact.SCOPE_SYSTEM.equalsIgnoreCase(mavenDependency.getScope())) {
                 continue;
             } else if (!new ScopeArtifactFilter(classpathScope).include(mavenDependency)) {
