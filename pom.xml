@@ -6,7 +6,7 @@
 
   <groupId>com.calpano.vertispan.j2cl</groupId>
   <artifactId>j2cl-tools</artifactId>
-  <version>0.19.2</version>
+  <version>0.19.3</version>
   <packaging>pom</packaging>
 
   <name>J2CL Build Tools</name>
