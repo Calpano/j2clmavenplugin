@@ -75,6 +75,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Discovers any tests referenced by {@code @J2clTestInput}, compiles them to JavaScript, and runs them in the configured
@@ -311,8 +312,10 @@ public class TestMojo extends AbstractBuildMojo {
             mainDep.setProject(main);
             testDeps.add(mainDep);
             test.setDependencies(testDeps);
-            test.setSourceRoots(project.getTestCompileSourceRoots().stream().filter(withSourceRootFilter()).collect(Collectors.toList()));
-            test.getSourceRoots().addAll(project.getTestResources().stream().map(FileSet::getDirectory).collect(Collectors.toList()));
+            test.setSourceRoots(Stream.concat(
+                    project.getTestCompileSourceRoots().stream().filter(withSourceRootFilter()),
+                    project.getTestResources().stream().map(FileSet::getDirectory)
+            ).collect(Collectors.toUnmodifiableList()));
         } catch (ProjectBuildingException e) {
             throw new MojoExecutionException("Failed to build project structure", e);
         }
@@ -512,12 +515,14 @@ public class TestMojo extends AbstractBuildMojo {
             chromeOptions.setHeadless(true);
             LoggingPreferences loggingPreferences = new LoggingPreferences();
             loggingPreferences.enable(LogType.BROWSER, Level.ALL);
-            chromeOptions.setCapability("goog:loggingPrefs",
-                    loggingPreferences);
+            chromeOptions.setCapability("goog:loggingPrefs", loggingPreferences);
             WebDriver driver = new ChromeDriver(chromeOptions);
             return driver;
         } else if ("htmlunit".equalsIgnoreCase(webdriver)){
-            return new HtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
+            HtmlUnitDriver driver = new HtmlUnitDriver(BrowserVersion.BEST_SUPPORTED, true);
+            driver.getWebClient().getOptions().setFetchPolyfillEnabled(true);
+            driver.getWebClient().getOptions().setProxyPolyfillEnabled(true);
+            return driver;
         }
 
         throw new MojoExecutionException("webdriver type not found: " + webdriver);

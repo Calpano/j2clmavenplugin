@@ -40,7 +40,7 @@ public class Closure {
                 .flatMap(Collection::stream)
                 .collect(Collectors.groupingBy(
                         c -> ((DiskCache.CacheEntry)c).getAbsoluteParent().toString(),
-                        Collectors.mapping(c -> c.getSourcePath().toString(), Collectors.toList())
+                        Collectors.mapping(c -> c.getSourcePath().toString(), Collectors.toUnmodifiableList())
                 ));
     }
 
@@ -89,7 +89,7 @@ public class Closure {
 
         List<String> duplicateRelativePaths = relativePathsWithCount.entrySet().stream()
                 .filter(entry -> entry.getValue() > 1)
-                .map(Map.Entry::getKey).collect(Collectors.toList());
+                .map(Map.Entry::getKey).collect(Collectors.toUnmodifiableList());
         if (!duplicateRelativePaths.isEmpty()) {
             log.error("Duplicate paths present, ensure only one dependency contributes a given file:");
             duplicateRelativePaths.forEach(path -> log.error("\t" + path));
@@ -151,6 +151,13 @@ public class Closure {
             // go ahead and use IIFE
             jscompArgs.add("--isolation_mode");
             jscompArgs.add("IIFE");
+        }
+
+        if (compilationLevel == CompilationLevel.BUNDLE) {
+            // avoid injecting libraries, the runtime will be added as part of the BundleJarTask step in the
+            // initial download
+            jscompArgs.add("--inject_libraries");
+            jscompArgs.add("false");
         }
 
         for (String entrypoint : entrypoints) {

@@ -3,6 +3,7 @@ package com.vertispan.j2cl.build.provided;
 import com.google.auto.service.AutoService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.javascript.jscomp.deps.ClosureBundler;
 import com.vertispan.j2cl.build.task.*;
 import com.vertispan.j2cl.tools.Closure;
 import org.apache.commons.io.FileUtils;
@@ -53,7 +54,7 @@ public class BundleJarTask extends TaskFactory {
                         Stream.of(input(project, OutputTypes.BUNDLED_JS))
                 )
                 .map(i -> i.filter(BUNDLE_JS))
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
 
         // Sort the projects, to try to include them in order. We can't be sure that all project
         // dependencies will be (or should be) present, but we can make sure that we only load
@@ -82,7 +83,7 @@ public class BundleJarTask extends TaskFactory {
                 // Only need to consider the original inputs and generated sources,
                 // J2CL won't contribute this kind of sources
                 .map(p -> input(p, OutputTypes.BYTECODE).filter(COPIED_OUTPUT))
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
 
         return new FinalOutputTask() {
             @Override
@@ -103,7 +104,7 @@ public class BundleJarTask extends TaskFactory {
                 outputDir.mkdirs();
                 for (CachedPath bundle : jsSources.stream()
                         .flatMap(i -> i.getFilesAndHashes().stream())
-                        .collect(Collectors.toList())) {
+                        .collect(Collectors.toUnmodifiableList())) {
                     Path targetFile = outputDir.toPath().resolve(bundle.getSourcePath());
                     // if the file is present and has the same size, skip it
                     if (Files.exists(targetFile) && Files.size(targetFile) == Files.size(bundle.getAbsolutePath())) {
@@ -125,7 +126,7 @@ public class BundleJarTask extends TaskFactory {
                             .flatMap(i -> i.getFilesAndHashes().stream())
                             .map(CachedPath::getSourcePath)
                             .map(Path::toString)
-                            .collect(Collectors.toList())
+                            .collect(Collectors.toUnmodifiableList())
                     );
                     // unconditionally set this to false, so that our dependency order works, since we're always in BUNDLE now
                     defines.put("goog.ENABLE_DEBUG_LOADER", false);
@@ -145,11 +146,17 @@ public class BundleJarTask extends TaskFactory {
                             "  elt.async = false;\n" +
                             "  document.head.appendChild(elt);\n" +
                             "});" + "})();";
+
+                    // Closure bundler runtime
+                    StringBuilder runtime = new StringBuilder();
+                    new ClosureBundler().appendRuntimeTo(runtime);
+
                     Files.write(initialScriptFile.toPath(), Arrays.asList(
                             defineLine,
                             intro,
                             scriptsArray,
-                            outro
+                            outro,
+                            runtime
                     ));
                 } catch (IOException e) {
                     throw new UncheckedIOException("Failed to write html import file", e);

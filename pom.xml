@@ -6,7 +6,7 @@
 
   <groupId>com.vertispan.j2cl</groupId>
   <artifactId>j2cl-tools</artifactId>
-  <version>0.20</version>
+  <version>0.21-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>J2CL Build Tools</name>
@@ -87,8 +87,8 @@
     <maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
 
     <!-- Builder dependencies versions -->
-    <j2cl.version>0.10.0-3c97afeac</j2cl.version>
-    <closure.compiler.unshaded.version>v20220502-1</closure.compiler.unshaded.version>
+    <j2cl.version>0.11.0-9336533b6</j2cl.version>
+    <closure.compiler.unshaded.version>v20221102-1</closure.compiler.unshaded.version>
     <commons.codec.version>1.11</commons.codec.version>
     <commons.io.version>2.7</commons.io.version>
 
@@ -110,7 +110,7 @@
 
     <!-- Test goal -->
     <selenium.version>3.141.59</selenium.version>
-    <selenium.htmlunit.version>2.41.0</selenium.htmlunit.version>
+    <selenium.htmlunit.version>2.65.0</selenium.htmlunit.version>
     <jsoup.version>1.14.2</jsoup.version>
     <jetty.version>9.4.43.v20210629</jetty.version>
 
@@ -120,8 +120,8 @@
     <!-- Configurations -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <dependencyManagement>
@@ -130,11 +130,13 @@
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-core</artifactId>
         <version>${maven.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-settings</artifactId>
         <version>${maven.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
@@ -145,21 +147,25 @@
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-model</artifactId>
         <version>${maven.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
         <version>${maven.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-artifact</artifactId>
         <version>${maven.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-model-builder</artifactId>
         <version>${maven.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.shared</groupId>
@@ -334,6 +340,9 @@
             <configuration>
               <rules>
                 <dependencyConvergence/>
+                <requireJavaVersion>
+                  <version>[11,)</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
             <goals>
