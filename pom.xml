@@ -98,7 +98,7 @@
     <!-- Dependency management -->
     <maven.shared.utils.version>3.3.3</maven.shared.utils.version>
     <plexus.component.annotations.version>1.7.1</plexus.component.annotations.version>
-    <plexus.utils.version>3.1.0</plexus.utils.version>
+    <plexus.utils.version>3.6.1</plexus.utils.version>
     <plexus.classworlds.version>2.5.2</plexus.classworlds.version>
     <plexus.interpolation.version>1.25</plexus.interpolation.version>
     <guava.version>32.0.0-jre</guava.version>
